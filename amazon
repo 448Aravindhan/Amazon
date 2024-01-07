@@ -1,0 +1,69 @@
+import mysql.connector
+mydb=mysql.connector.coonect(host="localhost",user="root",password="Aravind@448",database="amazon")
+mycursor =mydb.cursor()
+
+
+def order(username):
+    print("1.Mobiles"+'\n'+"2.Fashion"+'\n'+"3.Electronices"+'\n'+"4.Beauty"+'\n'+"5.Sports"+'\n'+"6.Essentials"+'\n'+"7.Furnitures"+'\n')
+    mydict ={1:"Mobiles",2:"Fashion",3:"Electronices",4:"Beauty",5:"Sports",6:"Essentials",7:"Furnitures"}
+    opt = int(input("Enter Your Option:"))
+    my_need = mydict[opt]
+    mycursor.execute("select amount from mydict where  like %s",(quantity))
+    data = mycursor.fetchone()
+    cost = int(data)
+    count =int(input("How much you want :"))
+    global tot_cost
+    tot_cost = count*cost
+    mycursor.execute("insert into myorders (item_id,username,item,count,amount)values(NULL,%s,%s,%s,%s)",(username, quantity,count,cost))
+    mydb.commit()
+    return 1
+
+def myorders(username):
+    mycursor.execute("select * from myorders where username like %s",(username))
+    mycursor.fetchall()
+    return 1
+
+
+def userlogin(username,password):
+    mycursor.execute("select * from user_details where like %s",(username,))
+    user_data = mycursor.fetchall()
+    u_name=user_data[0][1]
+    pas= user_data[0][4]
+    if u_name == username and pas == password:
+        print("1 order")
+        print("2 myorders")
+        choi = int(input ("Enter your Choice :"))
+        if choi == 1:
+            order(username)
+        elif choi ==2:
+            myorders(username)
+        else:
+            print("enter correct choice") 
+    return 1
+    
+def usersignup():
+    userrname =input("Enter Your Name :")
+    email =input("Enter Your Password :")
+    ph_no =input("Enter Your phone_number :")
+    passwordd =input("Enter Your Email :")
+    mycursor.execute("insert into user_details (,user_name,password,phone_number,email,,) values (NULL,%s,%s,%s,%s)",(user_name,password,phone_number,email))
+    mydb.commit()
+    print("Rigistered Successfully")
+    return 1
+
+
+
+if name == "main":
+    dest = input("user or admin :" )
+    dest.lower()
+    if dest =="user":
+        print("1.Login ,2.Singup")
+        choice = int(input("Enter 1 or 2 :"))
+        if choice ==1:
+            username = input("Username :")
+            password = input("password")
+            userlogin(username,password)
+        elif choice ==2:
+            usersignup()
+        else:
+            print("Enter Correct Choice")
